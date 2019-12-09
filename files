@@ -1,0 +1,74 @@
+import java.util.Scanner;
+import java.io.*;
+class Main {
+    public static void SearchByTerm() throws IOException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Term ..? ");
+        String term = input.nextLine();
+        FileReader fr = new FileReader("terms.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String line;
+        do {
+            line = br.readLine();
+            if(line.equals(term)) {
+                System.out.println("FOUND ..." + (line = br.readLine()));
+                br.close();
+                menu();
+            } else if(line.equals(null)) {
+                System.out.println("TERM NOT FOUND");
+                br.close();
+                menu();
+            }
+        } while(true);
+    }
+
+    public static void SearchDescriptionsForKeyword() throws IOException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Key word ...?");
+        String keyword = input.nextLine();
+        FileReader fr = new FileReader("terms.txt");
+        BufferedReader br = new BufferedReader(fr);
+        String line2;
+        String line;
+        do {
+            line = br.readLine();
+            line2 = br.readLine();
+            if (line2.contains(keyword)) {
+                System.out.println("FOUND for " + line);
+                System.out.println(line2);
+                br.close();
+                menu();
+            } else if(line.equals(null)) {
+                System.out.println("NO DESCRIPTIONS FOUND containing this key word");
+                br.close();
+                menu();
+            }
+        } while(true);
+    } 
+
+    public static void menu() throws IOException { 
+        int choice;
+        Scanner input = new Scanner(System.in);
+        do {
+            System.out.println("1. Search for a term");
+            System.out.println("2. Search for a keyword in the descriptions");
+            System.out.println("3. End");
+            System.out.println("Key in choice ");
+            choice = input.nextInt();
+            if(choice == 1) {
+                SearchByTerm();
+            } else if(choice == 2) {
+                SearchDescriptionsForKeyword();
+            } else if(choice == 3) {
+                System.exit(0);
+            }
+        } while(choice!=1 || choice!=2 || choice!=3);
+        
+    }
+    public static void main(String[] args) throws IOException {
+        Scanner input = new Scanner(System.in);
+        FileReader fr = new FileReader("terms.txt");
+        BufferedReader br = new BufferedReader(fr);
+        menu();
+  }
+}
